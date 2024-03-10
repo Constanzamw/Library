@@ -68,13 +68,36 @@ module.exports = {
 
 
     createBook: async(req,res)=>{
+        
+        const {title,author,year,genre, image} = req.body;
+        
         try {
-            
-            const {title,author,year,genre} = req.body;
-            const newBook = await booksService.createBook({title,author,year,genre});
+            const newBook = await booksService.createBook({title,author,year,genre, image});
             res.status(200).json(newBook);
         } catch (error) {
             return res.status(404).json({ error: error.message })
         }
-       }
+       },
+
+
+    markBookAsFavorite: async (req, res) => {
+        
+        const { id } = req.params;
+    
+        try {
+            const book = await booksService.markBookAsFavorite(id);
+            res.status(200).json(book);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    },
+    
+    getFavoriteBooks: async (req, res) => {
+        try {
+            const favoriteBooks = await booksService.getFavoriteBooks();
+            res.status(200).json(favoriteBooks);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    }
 }

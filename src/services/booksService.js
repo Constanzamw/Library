@@ -36,5 +36,15 @@ module.exports = {
 
     },
 
+    markBookAsFavorite: async (id) => {
+        const book = await Book.findByIdAndUpdate(id, { favorite: true }, { new: true });
+        return book;
+    },
+
+    getFavoriteBooks: async () => {
+        const favoriteBooks = await Book.find({ favorite: true });
+        return favoriteBooks;
+    }
+
 
 }
