@@ -15,6 +15,10 @@ module.exports = {
         const book = await Book.findOne({title});
         return book;
     },
+    findBookByAuthor: async (author)=>{
+        const book = await Book.find({author});
+        return book;
+    },
 
     deleteBook: async (id)=>{
         const book = await Book.findByIdAndDelete(id);

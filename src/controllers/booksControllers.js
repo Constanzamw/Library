@@ -32,6 +32,16 @@ module.exports = {
             return res.status(404).json({ error: error.message })
         }
     },
+    getBookByAuthor: async(req,res) => { 
+        try {
+            const {author} = req.body;
+            const book = await booksService.findBookByAuthor(author);
+            res.status(200).json(book)
+            
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
+    },
 
     deleteBook: async(req,res)=>{
         try {
