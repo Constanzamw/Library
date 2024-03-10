@@ -17,11 +17,7 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    favorite: { 
-        type: Boolean, 
-        default: false 
-    },
-    image: {
+     image: {
         type: String,
         required: true
     },

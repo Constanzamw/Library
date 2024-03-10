@@ -1,7 +1,13 @@
 const { Router } = require("express");
 const booksControllers = require("../controllers/booksControllers")
-
+const usersControllers = require("../controllers/usersControllers")
+const favoritesControllers = require("../controllers/favoritesControllers")
 const router = Router()
+
+//users
+router.get("/users", usersControllers.getUsers);
+router.post("/users", usersControllers.createUser)
+router.delete("/users/:id", usersControllers.deleteUser);
 
 //books
 router.get("/books", booksControllers.getBooks)
@@ -13,7 +19,8 @@ router.get("/books/:id", booksControllers.getBookById)
 router.post("/books", booksControllers.createBook)
 
 //favorites
-router.get("/books/favorites", booksControllers.getFavoriteBooks);
-router.put("/books/favorite/:id", booksControllers.markBookAsFavorite);
+router.get("/favorites", favoritesControllers.getFavorites);
+router.post('/favorites', favoritesControllers.updateFavorites);
+router.delete("/favorites/:id", favoritesControllers.deleteFavorites)
 
 module.exports = router;
