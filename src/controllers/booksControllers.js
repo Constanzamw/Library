@@ -2,25 +2,69 @@ const booksService = require("../services/booksService")
 
 module.exports = {
     getBooks: async (req,res)=>{
-        const books = await booksService.getBooks()
-        res.status(200).json(books)
+        try {
+            const books = await booksService.getBooks()
+            res.status(200).json(books)
+            
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
     },
 
     getBookById: async(req,res)=>{
-        const {id} = req.params;
-        const book = await booksService.getBookById(id)
-        res.status(200).json(book)
+        try {
+            const {id} = req.params;
+            const book = await booksService.getBookById(id)
+            res.status(200).json(book)
+            
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
     },
 
     getBookByTitle: async(req,res) => { 
-        const {title} = req.body;
-        const book = await booksService.findBookByTitle(title);
-        res.status(200).json(book)
+        try {
+            const {title} = req.body;
+            const book = await booksService.findBookByTitle(title);
+            res.status(200).json(book)
+            
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
     },
 
+    deleteBook: async(req,res)=>{
+        try {
+            
+            const {id} = req.params;
+            const book = await booksService.deleteBook(id)
+            res.status(200).json(book)
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
+    },
+
+    updateBook: async(req,res)=>{
+        const { id } = req.params;
+        const { title, author, year, genre } = req.body;
+
+        try {
+            const updatedBook = await booksService.updateBook(id, { title, author, year, genre });
+            res.status(200).json(updatedBook);
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
+    },
+
+
     createBook: async(req,res)=>{
-        const {title,author,year,genre} = req.body;
-        const newBook = await booksService.createBook({title,author,year,genre});
-        res.status(200).json(newBook);
+        try {
+            
+            const {title,author,year,genre} = req.body;
+            const newBook = await booksService.createBook({title,author,year,genre});
+            res.status(200).json(newBook);
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
        }
 }
