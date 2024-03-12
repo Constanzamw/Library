@@ -21,4 +21,14 @@ module.exports = {
             return res.status(404).json({ error: error.message })
         }
     },
+    getUserFavorites: async (req, res) => {
+        const { userId } = req.params;
+        try {
+            const favorites = await usersService.getUserFavorites(userId);
+            res.status(200).json(favorites);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    },
+    
 }

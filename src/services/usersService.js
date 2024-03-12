@@ -15,5 +15,13 @@ module.exports = {
         const user = await User.findByIdAndDelete(id);
         return user;
     },
+    getUserFavorites: async (userId) => {
+        try {
+            const user = await User.findById(userId);
+            return user.favorites;
+        } catch (error) {
+            throw new Error("Error al obtener los favoritos del usuario");
+        }
+    },
 
 }

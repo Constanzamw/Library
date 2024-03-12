@@ -8,15 +8,16 @@ const router = Router()
 router.get("/users", usersControllers.getUsers);
 router.post("/users", usersControllers.createUser)
 router.delete("/users/:id", usersControllers.deleteUser);
+router.get("/users/:userId/favorites", usersControllers.getUserFavorites);
 
 //books
 router.get("/books", booksControllers.getBooks)
 router.get("/books/title", booksControllers.getBookByTitle)
 router.get("/books/author", booksControllers.getBookByAuthor)
+router.post("/books", booksControllers.createBook)
 router.delete("/books/:id", booksControllers.deleteBook)
 router.put("/books/:id", booksControllers.updateBook);
 router.get("/books/:id", booksControllers.getBookById)
-router.post("/books", booksControllers.createBook)
 
 //favorites
 router.get("/favorites", favoritesControllers.getFavorites);
