@@ -9,6 +9,8 @@ router.get("/users", usersControllers.getUsers);
 router.post("/users", usersControllers.createUser)
 router.delete("/users/:id", usersControllers.deleteUser);
 router.get("/users/:userId/favorites", usersControllers.getUserFavorites);
+router.post("/users/:userId/favorites", usersControllers.addFavorite);
+router.delete("/users/:userId/favorites/:bookId", usersControllers.removeFavorite);
 
 //books
 router.get("/books", booksControllers.getBooks)

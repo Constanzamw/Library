@@ -2,14 +2,25 @@ const usersService = require("../services/usersService");
 
 module.exports = {
     getUsers: async(req,res)=>{
-        const users = await usersService.getUsers();
-        res.status(200).json(users);
+        try {
+            const users = await usersService.getUsers();
+            res.status(200).json(users);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    
     },
 
     createUser: async(req,res)=>{
         const {email,password} = req.body;
-        const newUser = await usersService.createUser({email, password});
-        res.status(200).json(newUser);
+        try {
+            const newUser = await usersService.createUser({email, password});
+            res.status(200).json(newUser);
+        } catch (error) {
+            console.error('Error creating user:', error);
+             res.status(500).json({ error: 'Internal server error' });
+        }
     },
 
     deleteUser: async(req,res)=>{
@@ -21,6 +32,30 @@ module.exports = {
             return res.status(404).json({ error: error.message })
         }
     },
+     addFavorite: async (req, res) => {
+        const { userId } = req.params;
+        const { bookId } = req.body;
+        try {
+            const favorites = await usersService.addFavorite(userId, bookId);
+            res.status(201).json(favorites);
+        } catch (error) {
+            console.error('Error adding favorite:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    },
+    
+     removeFavorite: async (req, res) => {
+        const { userId, bookId } = req.params;
+        try {
+            const favorites = await usersService.removeFavorite(userId, bookId);
+            res.status(200).json(favorites);
+        } catch (error) {
+            console.error('Error removing favorite:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    },
+
+
     getUserFavorites: async (req, res) => {
         const { userId } = req.params;
         try {
