@@ -2,7 +2,7 @@ const usersService = require("../services/usersService");
 
 const favoritesService = require("../services/favoritesService");
 const Book = require("../models/Book")
-
+const User = require("../models/User")
 
 module.exports = {
     getUsers: async(req,res)=>{
@@ -48,7 +48,7 @@ module.exports = {
         }
     },
     
-     removeFavorite: async (req, res) => {
+    removeFavorite: async (req, res) => {
         const { userId, bookId } = req.params;
         try {
             const favorites = await usersService.removeFavorite(userId, bookId);
@@ -59,22 +59,44 @@ module.exports = {
         }
     },
 
-
     getUserFavorites: async (req, res) => {
         const { userId } = req.params;
         try {
-            const favorites = await usersService.getUserFavorites(userId);
-            
-            const favoritesWithDetails = [];
-            
-            for (const bookId of favorites) {
-                const book = await Book.findById(bookId);
+            const user = await User.findById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const favoritesWithDetails = [];
+
+        for (const bookId of user.favorites) {
+            const book = await Book.findById(bookId);
+            if (book) {
                 favoritesWithDetails.push(book);
             }
-            
+        }
+        
             res.status(200).json(favoritesWithDetails);
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
     },
+
+
+    // getUserFavorites: async (req, res) => {
+    //     const { userId } = req.params;
+    //     try {
+    //         const favorites = await usersService.getUserFavorites(userId);
+            
+    //         const favoritesWithDetails = [];
+            
+    //         for (const bookId of favorites) {
+    //             const book = await Book.findById(bookId);
+    //             favoritesWithDetails.push(book);
+    //         }
+            
+    //         res.status(200).json(favoritesWithDetails);
+    //     } catch (error) {
+    //         return res.status(500).json({ error: error.message });
+    //     }
+    // },
 }
