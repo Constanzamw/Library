@@ -1,5 +1,9 @@
 const usersService = require("../services/usersService");
 
+const favoritesService = require("../services/favoritesService");
+const Book = require("../models/Book")
+
+
 module.exports = {
     getUsers: async(req,res)=>{
         try {
@@ -60,10 +64,17 @@ module.exports = {
         const { userId } = req.params;
         try {
             const favorites = await usersService.getUserFavorites(userId);
-            res.status(200).json(favorites);
+            
+            const favoritesWithDetails = [];
+            
+            for (const bookId of favorites) {
+                const book = await Book.findById(bookId);
+                favoritesWithDetails.push(book);
+            }
+            
+            res.status(200).json(favoritesWithDetails);
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
     },
-    
 }
