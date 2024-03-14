@@ -41,7 +41,7 @@ module.exports = {
                 throw new Error('User not found');
             }
     
-            user.favorites = user.favorites.filter(favorite => favorite !== bookId);
+            user.favorites = user.favorites.filter(favorite => favorite != bookId);
             await user.save();
     
             return user.favorites;
